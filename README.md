@@ -31,3 +31,8 @@ After that, to ensure that the dbt project is ok, execute
 ```
 dbt debug
 ```
+
+## Vídeo para entender como o Scrapy e o DBT funcionam
+
+- https://www.youtube.com/live/qNu1VCtUedg?si=k_xIu0CdJrpHj_XV
+- https://www.youtube.com/live/n3R0c2ZB6BQ?si=YWN7echIJJb2V4lr
