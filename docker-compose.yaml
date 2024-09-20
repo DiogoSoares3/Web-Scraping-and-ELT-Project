@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:16
+    container_name: db
     ports:
       - "5433:5432"
     restart: always
@@ -17,7 +18,8 @@ services:
 
   dbt:
     build:
-      context: ./ 
+      context: ./
+    container_name: dbt
     env_file:
       - ./datawarehouse/profiles/.env
     environment:
@@ -30,8 +32,9 @@ services:
     depends_on:
       - db
 
-  pgadmin4:
+  pgadmin:
     image: elestio/pgadmin:latest
+    container_name: pgadmin
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
