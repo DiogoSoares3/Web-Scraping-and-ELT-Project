@@ -25,7 +25,6 @@ services:
     environment:
       DBT_PROFILES_DIR: /PROJECT/datawarehouse/profiles
       DBT_PROJECT_DIR: /PROJECT/datawarehouse
-      DB_HOST: ${DB_HOST_CONTAINER}
     volumes:
       - ./datawarehouse:/PROJECT/datawarehouse
     networks:

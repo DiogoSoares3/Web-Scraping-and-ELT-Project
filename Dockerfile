@@ -11,4 +11,4 @@ COPY . /PROJECT
 
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-CMD ["bash"]
+CMD ["tail", "-f", "/dev/null"]
