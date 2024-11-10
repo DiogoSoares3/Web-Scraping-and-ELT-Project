@@ -1,0 +1,25 @@
+version: 2
+
+sources:
+  - name: WebScraping
+    schema: data
+    tables:
+      - name: mercado_livre_tenis-corrida-masculino
+        description: "Table with masculine running shoes from Mercado Livre"
+        columns:
+          - name: brand
+            description: "Shoes brand"
+          - name: name
+            description: "Shoes name"
+          - name: old_price_reais
+            description: "Shoes old price"
+          - name: old_price_cents
+            description: "Shoes old cent price"
+          - name: new_price_reais
+            description: "Shoes new price"
+          - name: new_price_cents
+            description: "Shoes new cent price"
+          - name: reviews_rating_number
+            description: "Number of stars that the customers gave to the product"
+          - name: reviews_amount
+            description: "Number of reviews made by customers"

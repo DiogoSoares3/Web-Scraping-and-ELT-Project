@@ -36,3 +36,51 @@ dbt debug
 
 - https://www.youtube.com/live/qNu1VCtUedg?si=k_xIu0CdJrpHj_XV
 - https://www.youtube.com/live/n3R0c2ZB6BQ?si=YWN7echIJJb2V4lr
+
+
+
+# Para criar novo projeto de Crawler:
+
+Primeiro entre na camada bronze:
+
+```bash
+cd ./datawarehouse/models/bronze/
+```
+
+Depois execute o comando do Scrapy para iniciar o projeto:
+
+```bash
+scrapy startproject <nome da fonte de dados>
+```
+
+Depois entre na pasta que o scrapy criou:
+
+```bash
+cd ./<nome da fonte de dados>
+```
+
+E execute o seguinte comando para referenciar o site a qual você quer fazer o crawler:
+
+```bash
+scrapy genspider <nome do spider> <url>
+```
+
+Entre no diretorio onde foi criado os arquivos de configuração do projeto:
+
+```bash
+cd <nome da fonte de dados>
+```
+
+E execute:
+
+```bash
+scrapy shell
+```
+
+O comando acima deve ser executado no mesmo diretorio onde contem o arquivo `setting.py`, pois é onde se tem as configurações de User-agent.
+
+### Para executar o script do spider com o parser:
+
+```bash
+scrapy crawl <variavel 'name' dentro da classe do spider> -o <path/output>.json
+```

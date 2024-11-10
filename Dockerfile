@@ -1,14 +1,8 @@
-FROM python:3.10
+FROM quay.io/astronomer/astro-runtime:12.1.1
 
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
+# install dbt into a virtual environment
+RUN python -m venv dbt_venv && source dbt_venv/bin/activate && \
+    pip install --no-cache-dir -r airflow-requirements.txt && deactivate
 
-WORKDIR /PROJECT
-
-COPY . /PROJECT
-
-RUN pip install --upgrade pip && pip install -r requirements.txt
-
-CMD ["tail", "-f", "/dev/null"]
+# set a connection to the airflow metadata db to use for testing
+ENV AIRFLOW_CONN_AIRFLOW_METADATA_DB=postgresql+psycopg2://postgres:postgres@postgres:5432/WebScraping?options=-csearch_path%public

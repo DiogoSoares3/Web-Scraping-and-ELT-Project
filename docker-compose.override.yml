@@ -1,0 +1,73 @@
+version: "3.1"
+
+# mount the dbt directory as a volume
+services:
+  scheduler:
+    environment:
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql://postgres:postgres@postgres:5432/WebScraping?options=-csearch_path%3Ddata,public
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql://postgres:postgres@postgres:5432/WebScraping?options=-csearch_path%3Ddata,public
+    volumes:
+      - ./datawarehouse:/usr/local/airflow/datawarehouse
+    networks:
+      - project_net
+
+  postgres:
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: WebScraping
+    networks:
+      - project_net
+
+  triggerer:
+    environment:
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql://postgres:postgres@postgres:5432/WebScraping?options=-csearch_path%3Ddata,public
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql://postgres:postgres@postgres:5432/WebScraping?options=-csearch_path%3Ddata,public
+    networks:
+      - project_net
+
+  webserver:
+    environment:
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql://postgres:postgres@postgres:5432/WebScraping?options=-csearch_path%3Ddata,public
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql://postgres:postgres@postgres:5432/WebScraping?options=-csearch_path%3Ddata,public 
+    networks:
+      - project_net
+
+  pgadmin:
+    image: elestio/pgadmin:latest
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: soares@test.com
+      PGADMIN_DEFAULT_PASSWORD: 123
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+    - "5050:80"
+    volumes:
+    - pgadmin-cache:/var/lib/pgadmin
+    networks:
+      - project_net
+
+#   db:
+#     image: postgres:16
+#     container_name: db
+#     ports:
+#       - "5434:5432"
+#     restart: always
+#     # env_file:
+#     #   - ./.env
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgres
+#       POSTGRES_DB: postgres
+#     volumes:
+#       - db-data:/var/lib/postgresql/data
+#     networks:
+#       - project_net
+
+volumes:
+  pgadmin-cache:
+#   db-data:
+
+networks:
+  project_net:

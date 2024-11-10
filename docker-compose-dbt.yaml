@@ -1,5 +1,5 @@
 services:
-  db:
+  postgres:
     image: postgres:16
     container_name: db
     ports:
@@ -19,23 +19,26 @@ services:
   dbt:
     build:
       context: ./
+      dockerfile: Dockerfile.dbt
     container_name: dbt
     env_file:
-      - ./datawarehouse/profiles/.env
+      - ./datawarehouse/.env
     environment:
-      DBT_PROFILES_DIR: /PROJECT/datawarehouse/profiles
+      DBT_PROFILES_DIR: /PROJECT/datawarehouse
       DBT_PROJECT_DIR: /PROJECT/datawarehouse
     volumes:
       - ./datawarehouse:/PROJECT/datawarehouse
     networks:
       - db-network
     depends_on:
-      - db
+      - postgres
 
   pgadmin:
     image: elestio/pgadmin:latest
     container_name: pgadmin
     restart: always
+    env_file:
+      - ./.env
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
@@ -47,7 +50,7 @@ services:
     networks:
       - db-network
     depends_on:
-      - db
+      - postgres
 
 volumes:
   db-data:

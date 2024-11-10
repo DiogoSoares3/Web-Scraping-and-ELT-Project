@@ -12,12 +12,21 @@ BOT_NAME = "mercado_livre_source"
 SPIDER_MODULES = ["mercado_livre_source.spiders"]
 NEWSPIDER_MODULE = "mercado_livre_source.spiders"
 
+#USER_AGENT = 'scrapy-fake-useragent'
+USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36'
+COOKIES_ENABLED = False
+# COOKIES_PERSISTENCE = True
+# AUTOTHROTTLE_ENABLED = False
+
+DOWNLOAD_DELAY = 5  # Tempo de espera em segundos
+RANDOMIZE_DOWNLOAD_DELAY = True # Variar o delay
+CONCURRENT_REQUESTS = 1  # Garantir que uma requisição seja feita por vez
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "mercado_livre_source (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
