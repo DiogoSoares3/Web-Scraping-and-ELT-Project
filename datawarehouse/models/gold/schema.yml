@@ -1,0 +1,21 @@
+version: 2
+
+sources:
+  - name: WebScraping
+    schema: data
+    tables:
+      - name: price_over_time_puma
+        description: "Price difference between Mercado Livre and Puma website for Puma shoes"
+        columns:
+          - name: name
+            description: "Shoes name"
+          - name: datetime_mercado_livre
+            description: "When the information about the shoes was collected in Mercado Livre website"
+          - name: datetime_site_puma
+            description: "When the information about the shoes was collected in Puma website"
+          - name: price_site_puma
+            description: "Shoes price in Puma website"
+          - name: price_mercado_livre
+            description: "Shoes price in Mercado Livre website"
+          - name: price_difference
+            description: "The price difference between the tho websites"

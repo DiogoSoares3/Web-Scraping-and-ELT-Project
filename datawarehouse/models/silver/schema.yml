@@ -4,21 +4,17 @@ sources:
   - name: WebScraping
     schema: data
     tables:
-      - name: mercado_livre_tenis_corrida_masculino
-        description: "Table with masculine running shoes from Mercado Livre"
+      - name: stg-mercado_livre_tenis_corrida_masculino
+        description: "Staging table with masculine running shoes from Mercado Livre"
         columns:
           - name: brand
             description: "Shoes brand"
           - name: name
             description: "Shoes name"
-          - name: old_price_reais
+          - name: old_price
             description: "Shoes old price"
-          - name: old_price_cents
-            description: "Shoes old cent price"
-          - name: new_price_reais
+          - name: new_price
             description: "Shoes new price"
-          - name: new_price_cents
-            description: "Shoes new cent price"
           - name: reviews_rating_number
             description: "Number of stars that the customers gave to the product"
           - name: reviews_amount
@@ -26,8 +22,8 @@ sources:
           - name: datetime
             description: "The date and time when the crawler obtained the shoes information"
 
-      - name: puma_tenis_corrida_masculino
-        description: "Table with masculine running shoes from Puma"
+      - name: stg-puma_tenis_corrida_masculino
+        description: "Staging table with masculine running shoes from Puma"
         columns:
           - name: name
             description: "Shoes name"
@@ -35,7 +31,7 @@ sources:
             description: "Shoes price"
           - name: label
             description: "Shoes information (optional)"
-          - name: ultimos_tamanhos
+          - name: last_sizes
             description: "Shoes last sizes"
           - name: datetime
             description: "The date and time when the crawler obtained the shoes information"

@@ -8,7 +8,7 @@ from sqlalchemy.exc import ProgrammingError
 from sqlalchemy import inspect, text
 
 
-ROOT_DIR = './sources' ## Dags will execute from /datawarehouse directory, so we put this as root dir for our load schema
+ROOT_DIR = './sources' ## Dags will execute from /datawarehouse directory, so we put this as root dir for our load schema.
 DB_URL = 'postgresql://postgres:postgres@postgres:5432/WebScraping'
 
 
@@ -44,7 +44,7 @@ def load_data_to_postgres(file_path, table_name, schema='public'):
 
         inspector = inspect(engine)
         if inspector.has_table(table_name, schema=schema):
-            raise ProgrammingError(f"A tabela '{schema}.{table_name}' já existe no banco de dados.")
+            raise ProgrammingError(f"The table '{schema}.{table_name}' already exists in the database.")
             ### Aqui talvez seja legal adicionar os novos dados na tabela, ao inves de dar erro quando eu tento adicionar novos dados retornados pelo crawler
 
         metadata.create_all(engine)

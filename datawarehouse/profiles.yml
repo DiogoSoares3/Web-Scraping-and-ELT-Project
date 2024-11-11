@@ -16,6 +16,6 @@ datawarehouse:
       user: postgres
       password: postgres
       port: 5432
-      dbname: WebScraping
-      schema: data
+      dbname: "WebScraping"
+      schema: "data"
       threads: 4

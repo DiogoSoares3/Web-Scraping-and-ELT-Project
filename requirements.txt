@@ -1,6 +1,1 @@
-dbt-postgres==1.8.2
-fastapi
-scrapy
-polars
-
-astro-run-dag # This package is needed for the astro run command. It will be removed before a deploy
+astronomer-cosmos>=1.0.2

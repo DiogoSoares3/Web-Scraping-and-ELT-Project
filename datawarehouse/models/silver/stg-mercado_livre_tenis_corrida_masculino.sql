@@ -1,7 +1,7 @@
 -- import
 
-with source as (
-    select 
+WITH source as (
+    SELECT 
         "brand",
         "name",
         "old_price_reais",
@@ -11,22 +11,22 @@ with source as (
         "reviews_rating_number",
         "reviews_amount",
         "datetime"
-    from 
-        {{source ("WebScraping", "mercado_livre_tenis-corrida-masculino")}}  
+    FROM 
+        {{source ("WebScraping", "mercado_livre_tenis_corrida_masculino")}}  
 ),
 
 -- renamed
 
 renamed as (
-    select
+    SELECT
         cast("brand" as text),
         cast("name" as text),
-        cast("old_price_reais" || '.' || "old_price_cents" as float) as old_price, --- Fazer CASE THEN, pois tem old_price que tem o preço junto com centavo já
-        cast("new_price_reais" || '.' || "new_price_cents" as float) as new_price,
+        cast(replace("old_price_reais", '.', '') || '.' || "old_price_cents" as float) as old_price, --- Fazer CASE THEN, pois tem old_price que tem o preço junto com centavo já
+        cast(replace("new_price_reais", '.', '') || '.' || "new_price_cents" as float) as new_price,
         cast("reviews_rating_number" as float),
         cast(replace(replace("reviews_amount", '(', ''), ')', '') as integer) as reviews_amount,
         to_timestamp(cast("datetime" as float)) as datetime
-    from source
+    FROM source
 )
 
-select * from renamed
+SELECT * FROM renamed

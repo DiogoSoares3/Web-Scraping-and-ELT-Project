@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 class MercadoLivreTenisCorridaMasculinoSpider(scrapy.Spider):
-    name = "mercado_livre_tenis-corrida-masculino"
+    name = "mercado_livre_tenis_corrida_masculino"
     allowed_domains = ["lista.mercadolivre.com.br"]
     start_urls = ["https://lista.mercadolivre.com.br/tenis-corrida-masculino"]
 
