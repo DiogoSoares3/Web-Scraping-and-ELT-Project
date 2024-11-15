@@ -1,3 +1,5 @@
+{{ config(tags=['mercado_livre']) }}
+
 -- import
 
 WITH source as (
@@ -12,7 +14,7 @@ WITH source as (
         "reviews_amount",
         "datetime"
     FROM 
-        {{source ("WebScraping", "mercado_livre_tenis_corrida_masculino")}}  
+        {{source ("WebScraping", "raw-mercado_livre_tenis_corrida_masculino")}}  
 ),
 
 -- renamed

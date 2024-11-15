@@ -8,7 +8,7 @@ WITH source AS (
         "ultimos_tamanhos",
         "datetime"
     FROM 
-        {{source ("WebScraping", "puma_tenis_corrida_masculino")}}
+        {{source ("WebScraping", "raw-puma_tenis_corrida_masculino")}}
 ),
 
 --renamed

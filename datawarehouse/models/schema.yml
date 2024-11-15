@@ -4,13 +4,17 @@ sources:
   - name: WebScraping
     schema: data
     tables:
-      - name: mercado_livre_tenis_corrida_masculino
+      - name: raw-mercado_livre_tenis_corrida_masculino
         description: "Table with masculine running shoes from Mercado Livre"
         columns:
           - name: brand
             description: "Shoes brand"
           - name: name
             description: "Shoes name"
+            tests:
+              - unique
+              - not_null
+
           - name: old_price_reais
             description: "Shoes old price"
           - name: old_price_cents
@@ -26,7 +30,7 @@ sources:
           - name: datetime
             description: "The date and time when the crawler obtained the shoes information"
 
-      - name: puma_tenis_corrida_masculino
+      - name: raw-puma_tenis_corrida_masculino
         description: "Table with masculine running shoes from Puma"
         columns:
           - name: name

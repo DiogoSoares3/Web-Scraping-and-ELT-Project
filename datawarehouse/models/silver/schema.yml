@@ -11,6 +11,10 @@ sources:
             description: "Shoes brand"
           - name: name
             description: "Shoes name"
+            tests:
+              - unique
+              - not_null
+
           - name: old_price
             description: "Shoes old price"
           - name: new_price

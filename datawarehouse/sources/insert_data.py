@@ -8,9 +8,10 @@ from sqlalchemy.exc import ProgrammingError
 from sqlalchemy import inspect, text
 
 
-ROOT_DIR = './sources' ## Dags will execute from /datawarehouse directory, so we put this as root dir for our load schema.
+ROOT_DIR = './datawarehouse/sources' ## Dags will execute from project's root directory, so we put this as root dir for our load schema.
 DB_URL = 'postgresql://postgres:postgres@postgres:5432/WebScraping'
 
+### SUGESTÃO: Colocar algum parâmetro que possibilite a escolha da tabela ao qual se deve inserir
 
 def create_schema_if_not_exists(conn, schema_name):
     create_schema_query = text(f"CREATE SCHEMA IF NOT EXISTS {schema_name};")
@@ -19,7 +20,7 @@ def create_schema_if_not_exists(conn, schema_name):
     print(f"Schema '{schema_name}' create or retrieved.")
 
 
-def load_data_to_postgres(file_path, table_name, schema='public'):
+def load_data_to_postgres(file_path, table_name, schema='data'):
     _, file_extension = os.path.splitext(file_path)
 
     if file_extension == '.json':
@@ -61,7 +62,7 @@ def load_data_to_postgres(file_path, table_name, schema='public'):
         session.close()
 
 
-def process_files_in_directory(schema='public'):
+def process_files_in_directory(schema='data'):
     for source_dir in os.listdir(ROOT_DIR):
         if source_dir.endswith('_source'):
             data_dir = os.path.join(ROOT_DIR, source_dir, 'data')
@@ -73,7 +74,7 @@ def process_files_in_directory(schema='public'):
             for file_name in os.listdir(data_dir):
                 file_path = os.path.join(data_dir, file_name)
                 if file_name.endswith('.json') or file_name.endswith('.csv'):
-                    table_name = file_name.rsplit('.', 1)[0]  # Table's name based on the file name
+                    table_name = 'raw-' + file_name.rsplit('.', 1)[0]  # Table's name based on the file name
                     try:
                         load_data_to_postgres(file_path, table_name, schema)
                         print(f"Data from {file_name} were inserted in the table {table_name}.")
