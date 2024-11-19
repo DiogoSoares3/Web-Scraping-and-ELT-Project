@@ -35,7 +35,7 @@ services:
 
   pgadmin:
     image: elestio/pgadmin:latest
-    container_name: pgadmin
+    container_name: pgadmin_dbt
     restart: always
     env_file:
       - ./.env

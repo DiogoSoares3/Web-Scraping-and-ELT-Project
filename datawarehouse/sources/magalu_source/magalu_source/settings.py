@@ -1,4 +1,4 @@
-# Scrapy settings for mercado_livre_source project
+# Scrapy settings for magalu_source project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,26 +7,22 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "mercado_livre_source"
+BOT_NAME = "magalu_source"
 
-SPIDER_MODULES = ["mercado_livre_source.spiders"]
-NEWSPIDER_MODULE = "mercado_livre_source.spiders"
+SPIDER_MODULES = ["magalu_source.spiders"]
+NEWSPIDER_MODULE = "magalu_source.spiders"
 
-#USER_AGENT = 'scrapy-fake-useragent'
-USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36'
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
 COOKIES_ENABLED = False
-# COOKIES_PERSISTENCE = True
-# AUTOTHROTTLE_ENABLED = False
+# Crawl responsibly by identifying yourself (and your website) on the user-agent
+#USER_AGENT = "magalu_source (+http://www.yourdomain.com)"
 
 DOWNLOAD_DELAY = 5  # Tempo de espera em segundos
 RANDOMIZE_DOWNLOAD_DELAY = True # Variar o delay
 CONCURRENT_REQUESTS = 1  # Garantir que uma requisição seja feita por vez
 
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "mercado_livre_source (+http://www.yourdomain.com)"
-
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = False
+ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -39,29 +35,32 @@ ROBOTSTXT_OBEY = False
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
 
-# Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
 
-# Override the default request headers:
-#DEFAULT_REQUEST_HEADERS = {
-#    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-#    "Accept-Language": "en",
-#}
-
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    "mercado_livre_source.middlewares.MercadoLivreSourceSpiderMiddleware": 543,
-#}
+# SPIDER_MIDDLEWARES = {
+#    "magalu_source.middlewares.MagaluSourceSpiderMiddleware": 543,
+# }
 
-# Enable or disable downloader middlewares
-# See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    "mercado_livre_source.middlewares.MercadoLivreSourceDownloaderMiddleware": 543,
-#}
+# # Enable or disable downloader middlewares
+# # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
+# DOWNLOADER_MIDDLEWARES = {
+#    "magalu_source.middlewares.MagaluSourceDownloaderMiddleware": 543,
+# }
+
+# DOWNLOADER_MIDDLEWARES.update({
+#     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+#     'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
+# })
+
+# DEFAULT_REQUEST_HEADERS = {
+#     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+#     'Accept-Language': 'pt-BR,pt;q=0.9',
+#     'Referer': 'https://www.google.com'
+# }
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -72,7 +71,7 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    "mercado_livre_source.pipelines.MercadoLivreSourcePipeline": 300,
+#    "magalu_source.pipelines.MagaluSourcePipeline": 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)

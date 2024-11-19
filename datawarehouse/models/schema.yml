@@ -43,3 +43,19 @@ sources:
             description: "Shoes last sizes"
           - name: datetime
             description: "The date and time when the crawler obtained the shoes information"
+      
+      - name: raw-magalu_tenis_corrida_masculino
+        description: "Table with masculine running shoes from Magazine Luiza"
+        columns:
+          - name: name
+            description: "Shoes name"
+          - name: old_price
+            description: "Shoes old_price"
+          - name: new_price
+            description: "Shoes new_price"
+          - name: rating_and_number_of_evaluations
+            description: "Shoes ratings and number of evaluations"
+          - name: discount_pix
+            description: "Discount percentange if you pay using Pix"
+          - name: datetime
+            description: "The date and time when the crawler obtained the shoes information"

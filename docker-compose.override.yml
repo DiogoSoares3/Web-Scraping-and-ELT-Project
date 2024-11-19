@@ -5,6 +5,7 @@ services:
   scheduler:
     mem_limit: 1g
     cpus: 0.5
+    user: "${UID}:${GID}"
     environment:
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql://postgres:postgres@postgres:5432/WebScraping?options=-csearch_path%3Ddata,public
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql://postgres:postgres@postgres:5432/WebScraping?options=-csearch_path%3Ddata,public
@@ -24,6 +25,7 @@ services:
   triggerer:
     mem_limit: 1g
     cpus: 0.5
+    user: "${UID}:${GID}"
     environment:
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql://postgres:postgres@postgres:5432/WebScraping?options=-csearch_path%3Ddata,public
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql://postgres:postgres@postgres:5432/WebScraping?options=-csearch_path%3Ddata,public
@@ -40,7 +42,7 @@ services:
       - project_net
 
   pgadmin:
-    image: elestio/pgadmin:latest
+    image: elestio/pgadmin:REL-8_12
     container_name: pgadmin
     restart: always
     environment:

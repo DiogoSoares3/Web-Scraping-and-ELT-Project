@@ -32,3 +32,5 @@ renamed as (
 )
 
 SELECT * FROM renamed
+
+-- PROXIMA ETAPA: Tratar dados duplicados aqui na camada Silver

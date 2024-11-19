@@ -3,3 +3,4 @@ fastapi
 scrapy
 polars
 sqlalchemy
+scrapy-fake-useragent
