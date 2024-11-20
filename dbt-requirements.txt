@@ -1,6 +1,10 @@
-dbt-postgres==1.8.2
+dbt-core
+dbt-postgres
 fastapi
 scrapy
 polars
 sqlalchemy
 scrapy-fake-useragent
+python-telegram-bot
+python-dotenv
+uvicorn

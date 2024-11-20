@@ -2,6 +2,7 @@
 
 WITH source AS (
     SELECT DISTINCT ON ("name", "price", "label", "ultimos_tamanhos")
+        "id",
         "name",
         "price",
         "label",
@@ -15,6 +16,7 @@ WITH source AS (
 
 renamed as (
 	SELECT
+        "id",
 		'Puma' as brand,
 		cast("name" as text),
 		cast(replace(replace(replace("price", 'R$', ''), '.', ''), ',', '.') as float) as price,

@@ -7,6 +7,8 @@ sources:
       - name: raw-mercado_livre_tenis_corrida_masculino
         description: "Table with masculine running shoes from Mercado Livre"
         columns:
+          - name: id
+            description: "UUID"
           - name: brand
             description: "Shoes brand"
           - name: name
@@ -33,6 +35,8 @@ sources:
       - name: raw-puma_tenis_corrida_masculino
         description: "Table with masculine running shoes from Puma"
         columns:
+          - name: id
+            description: "UUID"
           - name: name
             description: "Shoes name"
           - name: price
@@ -47,6 +51,8 @@ sources:
       - name: raw-magalu_tenis_corrida_masculino
         description: "Table with masculine running shoes from Magazine Luiza"
         columns:
+          - name: id
+            description: "UUID"
           - name: name
             description: "Shoes name"
           - name: old_price

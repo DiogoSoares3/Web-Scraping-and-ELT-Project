@@ -28,13 +28,16 @@ services:
       DBT_PROJECT_DIR: /PROJECT/datawarehouse
     volumes:
       - ./datawarehouse:/PROJECT/datawarehouse
+      - ./include:/PROJECT/include
+    ports: # Apenas teste da api
+    - "8000:8000"
     networks:
       - db-network
     depends_on:
       - postgres
 
   pgadmin:
-    image: elestio/pgadmin:latest
+    image: elestio/pgadmin:REL-8_12
     container_name: pgadmin_dbt
     restart: always
     env_file:

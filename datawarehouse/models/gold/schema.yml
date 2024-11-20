@@ -4,18 +4,48 @@ sources:
   - name: WebScraping
     schema: data
     tables:
-      - name: price_over_time_puma
-        description: "Price difference between Mercado Livre and Puma website for Puma shoes"
+      - name: price_over_time_infusion
+        description: "Price of the Infusion Puma shoes over time in Mercado Livre, Magazine Luiza and Puma website"
         columns:
           - name: name
             description: "Shoes name"
-          - name: datetime_mercado_livre
-            description: "When the information about the shoes was collected in Mercado Livre website"
-          - name: datetime_site_puma
-            description: "When the information about the shoes was collected in Puma website"
-          - name: price_site_puma
-            description: "Shoes price in Puma website"
-          - name: price_mercado_livre
-            description: "Shoes price in Mercado Livre website"
-          - name: price_difference
-            description: "The price difference between the tho websites"
+          - name: price
+            description: "Shoes price"
+          - name: site
+            description: "Website where the price of the Infusion Puma shoes was collected"
+          - name: datetime
+            description: "Timestamp when the Infusion Puma shoes was collected"
+
+      - name: top10_best_puma_shoes_price
+        description: "Top 10 best Puma shoes price of all the websites combined"
+        columns:
+          - name: name
+            description: "Shoes name"
+          - name: brand
+            description: "Brand name (in this case only 'puma')"
+          - name: price
+            description: "Shoes price"
+          - name: site
+            description: "Website where the price of the Puma shoes was collected"
+
+      - name: metrics_puma_prices
+        description: "Statistics metrics related to Puma shoes along all the websites"
+        columns:
+          - name: site
+            description: "Website where the price of the Puma shoes was collected"
+          - name: min_price
+            description: "Min price of Puma shoes in a specific website"
+          - name: max_price
+            description: "Max price of Puma shoes in a specific website"
+          - name: mean_price
+            description: "Mean price of Puma shoes in a specific website"
+          - name: stddev_price
+            description: "Standard deviation price of Puma shoes in a specific website"
+          - name: percentile_25
+            description: "25th percentile price of Puma shoes in a specific website"
+          - name: median_price
+            description: "Median (50th percentile) price of Puma shoes in a specific website"
+          - name: percentile_75
+            description: "75th percentile price of Puma shoes in a specific website"
+          - name: qtd_shoes
+            description: "Different data quantity collected in a specific website"
