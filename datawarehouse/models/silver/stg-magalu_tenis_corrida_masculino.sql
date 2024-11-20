@@ -1,7 +1,7 @@
 -- import
 
 WITH source as (
-    SELECT 
+    SELECT DISTINCT ON ("name", "old_price", "new_price", "rating_and_number_of_evaluations", "discount_pix")
         "name",
         "old_price",
         "new_price",
@@ -15,7 +15,7 @@ WITH source as (
 -- renamed
 
 renamed as (
-    SELECT  -- SUGESTÃO: Fazer alerta do telegram e whatsap para preço de tenis da puma abaixo de XX preço
+    SELECT -- ARRUMAR ESSE REPLACE DO R$
         cast("name" as text),
         cast(replace(replace("old_price", ',', '.'), 'R$ ', '') as float) as old_price,
         cast(replace(replace("new_price", ',', '.'), 'R$ ', '') as float) as new_price,

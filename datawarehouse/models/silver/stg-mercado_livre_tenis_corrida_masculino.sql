@@ -3,7 +3,11 @@
 -- import
 
 WITH source as (
-    SELECT 
+    SELECT DISTINCT ON (
+        "brand",  "name", "old_price_reais",
+        "old_price_cents","new_price_reais","new_price_cents",
+        "reviews_rating_number", "reviews_amount")
+
         "brand",
         "name",
         "old_price_reais",

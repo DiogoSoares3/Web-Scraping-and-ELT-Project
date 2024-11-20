@@ -32,3 +32,5 @@ FROM
     mercado_livre_filtered l1
 JOIN 
     puma_filtered l2 on upper(l1.name) = upper(l2.name)
+
+-- ADICIONAR A FONTE DA MAGALU NESSE SCRIPTS

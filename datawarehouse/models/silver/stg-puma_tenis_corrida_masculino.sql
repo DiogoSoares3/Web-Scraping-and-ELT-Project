@@ -1,7 +1,7 @@
 -- import
 
 WITH source AS (
-    SELECT 
+    SELECT DISTINCT ON ("name", "price", "label", "ultimos_tamanhos")
         "name",
         "price",
         "label",
