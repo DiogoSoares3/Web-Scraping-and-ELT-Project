@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+sqlalchemy>=2.0
+fireducks
+pydantic
+pydantic-settings
+python-telegram-bot
+psycopg2-binary
+polars
+python-multipart

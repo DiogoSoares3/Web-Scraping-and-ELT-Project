@@ -1,4 +1,5 @@
 from datetime import datetime
+import requests
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
@@ -7,9 +8,45 @@ from airflow.utils.task_group import TaskGroup
 from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, RenderConfig
 
 from include.constants import dbt_path, venv_execution_config
-from datawarehouse.sources.utils import verify_data_already_exists, remove_data_from_dir, insert_data_to_postgres
+from datawarehouse.sources.utils import verify_data_already_exists, remove_data_from_dir
 
 SOURCE_DIR = './datawarehouse/sources'
+
+
+def api_call_insert_data(schema='data', source_dir=None):
+    url = "http://api:8200/api/insert-data/"
+    data = {
+        "schema": schema,
+        "source_dir": source_dir
+    }
+    
+    try:
+        response = requests.post(url, json=data)
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        print(f"Error during API call: {e}")
+        raise
+
+    return {
+        "status_code": response.status_code,
+        "content": response.json()
+    }
+
+
+def api_call_telegram_bot():
+    url = "http://api:8200/api/telegram-bot/"
+    
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        print(f"Error during API call: {e}")
+        raise
+
+    return {
+        "status_code": response.status_code,
+        "content": response.json()
+    }
 
 
 with DAG(
@@ -27,7 +64,7 @@ with DAG(
             )
         task_2 = PythonOperator(
             task_id="insert_data_to_postgres",
-            python_callable=insert_data_to_postgres,
+            python_callable=api_call_insert_data,
             )
         task_3 = PythonOperator(
             task_id="remove_data_from_dir",
@@ -55,7 +92,7 @@ with DAG(
     
     insert_data_database = PythonOperator(
         task_id="insert_data_db",
-        python_callable=insert_data_to_postgres,
+        python_callable=api_call_insert_data,
         op_kwargs={"schema": "data"},
         provide_context=True
     )
@@ -80,4 +117,9 @@ with DAG(
         default_args={"retries": 3},
     )
     
-    data_handling >> run_crawlers >> insert_data_database >> [dbt_tasks, remove_file]
+    telegram_bot = PythonOperator(
+        task_id="telegram_bot",
+        python_callable=api_call_telegram_bot,
+    )
+    
+    data_handling >> run_crawlers >> insert_data_database >> [dbt_tasks, remove_file] >> telegram_bot

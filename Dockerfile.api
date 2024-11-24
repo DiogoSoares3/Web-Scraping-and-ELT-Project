@@ -1,0 +1,8 @@
+FROM python:3.12.7-slim as python-base
+WORKDIR /
+COPY ./api /api
+COPY ./datawarehouse /datawarehouse
+
+RUN pip install --upgrade pip && pip install -r /api/requirements.txt
+
+ENV PYTHONPATH=/api:/datawarehouse
