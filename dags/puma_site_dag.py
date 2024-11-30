@@ -10,7 +10,7 @@ from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, RenderConfig
 from include.constants import dbt_path, venv_execution_config
 from datawarehouse.sources.utils import verify_data_already_exists, remove_data_from_dir
 
-SOURCE_DIR = './datawarehouse/sources/mercado_livre_source'
+SOURCE_DIR = './datawarehouse/sources/puma_source'
 
 
 def api_call_insert_data(schema='data', source_dir=None):
@@ -50,7 +50,7 @@ def api_call_telegram_bot():
 
 
 with DAG(
-    "Mercado_Livre_DAG",
+    "Puma_Site_DAG",
     schedule_interval="@daily",
     start_date=datetime(2023, 1, 1),
     catchup=False
@@ -66,19 +66,18 @@ with DAG(
         task_2 = PythonOperator(
             task_id="insert_data_to_postgres",
             python_callable=api_call_insert_data,
-            op_kwargs={"schema": "data", "source_dir": SOURCE_DIR}
+            op_kwargs={"schema": "data", "source_dir": SOURCE_DIR},
             )
         task_3 = PythonOperator(
             task_id="remove_data_from_dir",
             python_callable=remove_data_from_dir,
             op_kwargs={"source_dir": SOURCE_DIR}
             )
-
         task_1 >> task_2 >> task_3
                 
-    run_mercado_livre_crawler = BashOperator(
-        task_id="run_mercado_livre_crawler",
-        bash_command="{% raw %}cd /usr/local/airflow/datawarehouse/sources/mercado_livre_source/ && sh run_crawlers/mercado_livre_tenis_corrida_masculino.sh{% endraw %}"
+    run_puma_crawler = BashOperator(
+        task_id="run_puma_crawler",
+        bash_command="{% raw %}cd /usr/local/airflow/datawarehouse/sources/puma_source/ && sh run_crawlers/puma_tenis_corrida_masculino.sh{% endraw %}"
     ) ## Arrumar esse path gigante
         
 
@@ -105,7 +104,7 @@ with DAG(
         ),
         render_config=RenderConfig(
             emit_datasets=True,
-            select=["tag:mercado_livre"]
+            select=["tag:puma_site"]
             ),
         execution_config=venv_execution_config,
         default_args={"retries": 3},
@@ -116,4 +115,4 @@ with DAG(
         python_callable=api_call_telegram_bot,
     )
     
-    data_handling >> run_mercado_livre_crawler >> insert_data_database >> [dbt_tasks, remove_file] >> telegram_bot
+    data_handling >> run_puma_crawler >> insert_data_database >> [dbt_tasks, remove_file] >> telegram_bot

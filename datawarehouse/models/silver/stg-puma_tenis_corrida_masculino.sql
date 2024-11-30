@@ -1,3 +1,5 @@
+{{ config(tags=['puma_site']) }}
+
 -- import
 
 WITH source AS (

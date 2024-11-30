@@ -70,20 +70,18 @@ def _insert_data(file_path, table_name, engine, session, schema='data'):
         session.rollback()
         raise e
 
-    # finally:
-    #     session.close()
-
 
 def verify_data_already_exists(source_dir=None):
     if source_dir:
         data_dir = os.path.join(source_dir, 'data')
         
-        if not os.path.exists(data_dir):
+        if not os.listdir(data_dir):
             print('No data left, already up to date.')
 
 
-def remove_data_from_dir(data_dir=None):
-    if data_dir:
+def remove_data_from_dir(source_dir=None):
+    if source_dir:
+        data_dir = os.path.join(source_dir, 'data')
         if os.path.exists(data_dir):
             for file_name in os.listdir(data_dir):
                 file_path = os.path.join(data_dir, file_name)
@@ -101,7 +99,7 @@ def remove_data_from_dir(data_dir=None):
                     os.remove(file_path)
 
 
-def insert_data_to_postgres(engine, session, settings, schema='data', source_dir=None):
+def insert_data_to_postgres(engine, session, schema='data', source_dir=None):
     if source_dir:
         data_dir = os.path.join(source_dir, 'data')
 
@@ -113,16 +111,14 @@ def insert_data_to_postgres(engine, session, settings, schema='data', source_dir
             file_path = os.path.join(data_dir, file_name)
             if file_name.endswith('.json') or file_name.endswith('.csv'):
                 table_name = 'raw-' + file_name.rsplit('.', 1)[0]  # Table's name based on the file name
-                _insert_data(file_path, table_name, schema)
+                _insert_data(file_path, table_name, engine, session, schema)
 
         return data_dir
 
     else:
-        print(os.listdir(SOURCES_DIR))
         for source_dir in os.listdir(SOURCES_DIR):
             if source_dir.endswith('_source'):
                 data_dir = os.path.join(SOURCES_DIR, source_dir, 'data')
-                print("Juntado: ", data_dir)
 
                 if not os.path.exists(data_dir):
                     continue
@@ -140,7 +136,7 @@ def insert_data_to_postgres(engine, session, settings, schema='data', source_dir
                         except ProgrammingError as e:
                             print(f"Erro: {e}")
                         except Exception as e:
-                            print(f"Falha ao processar {file_name}: {e}")
+                            print(f"Failed to process {file_name}: {e}")
     return 'success'
 
 

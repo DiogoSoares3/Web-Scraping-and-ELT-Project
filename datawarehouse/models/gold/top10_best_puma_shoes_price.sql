@@ -1,3 +1,5 @@
+{{ config(tags=['mercado_livre', 'magalu', 'puma_site']) }}
+
 WITH mercado_livre_filtered AS (
     SELECT 
         name,

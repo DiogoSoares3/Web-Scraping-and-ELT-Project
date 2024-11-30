@@ -14,7 +14,7 @@ SOURCE_DIR = './datawarehouse/sources'
 
 
 def api_call_insert_data(schema='data', source_dir=None):
-    url = "http://api:8200/api/insert-data/"
+    url = "http://api_app:8200/api/insert-data/"
     data = {
         "schema": schema,
         "source_dir": source_dir
@@ -34,7 +34,7 @@ def api_call_insert_data(schema='data', source_dir=None):
 
 
 def api_call_telegram_bot():
-    url = "http://api:8200/api/telegram-bot/"
+    url = "http://api_app:8200/api/telegram-bot/"
     
     try:
         response = requests.get(url)

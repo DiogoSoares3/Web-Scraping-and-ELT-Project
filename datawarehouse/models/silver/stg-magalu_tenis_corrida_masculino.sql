@@ -1,3 +1,5 @@
+{{ config(tags=['magalu']) }}
+
 -- import
 
 WITH source AS (
