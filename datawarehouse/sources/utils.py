@@ -113,7 +113,7 @@ def insert_data_to_postgres(engine, session, schema='data', source_dir=None):
                 table_name = 'raw-' + file_name.rsplit('.', 1)[0]  # Table's name based on the file name
                 _insert_data(file_path, table_name, engine, session, schema)
 
-        return data_dir
+        return 'success'
 
     else:
         for source_dir in os.listdir(SOURCES_DIR):

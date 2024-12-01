@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Float, String, Integer, inspect, PrimaryKeyConstraint
+
 from core.configs import settings
 from core.database import engine
 
@@ -18,6 +19,6 @@ if 'metrics_puma_prices' in inspector.get_view_names(schema='data'):
         percentile_25: float = Column(Float, nullable=False)
         median_price: float = Column(Float, nullable=False)
         percentile_75: float = Column(Float, nullable=False)
-        qtd_shoes: float = Column(Integer, nullable=False)
+        qtd_shoes: int = Column(Integer, nullable=False)
 else:
     print("Table 'metrics_puma_prices' still not exists.")

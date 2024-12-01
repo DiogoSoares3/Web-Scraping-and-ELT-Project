@@ -17,7 +17,7 @@ if data:
     df_sorted = df.sort_values(by="price", ascending=True).head(10)
 
     st.table(df_sorted)
-    
+
     fig = px.bar(
         df_sorted,
         x="price",
@@ -25,13 +25,13 @@ if data:
         color="site",
         orientation="h",
         title="Top 10 cheapest product consedering all websites",
-        labels={"price": "Price", "name": "Product", "site": "Site"}
+        labels={"price": "Price", "name": "Product", "site": "Wbsite"}
     )
 
     st.plotly_chart(fig, use_container_width=True)
-    
+
     st.markdown('#### Graph and Table Information:')
-    
+
     st.write(r"""
     The graph above shows the information of the top 10 best Puma sneakers sold on different websites.
     It helps the user to know the cheaper options of puma shoes on the market. 

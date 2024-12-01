@@ -1,5 +1,6 @@
 version: 2
 
+
 sources:
   - name: WebScraping
     schema: data
@@ -9,59 +10,102 @@ sources:
         columns:
           - name: id
             description: "UUID"
-          - name: brand
-            description: "Shoes brand"
-          - name: name
-            description: "Shoes name"
             tests:
               - unique
               - not_null
 
+          - name: brand
+            description: "Shoes brand"
+
+          - name: name
+            description: "Shoes name"
+            tests:
+              - not_null
+
           - name: old_price_reais
             description: "Shoes old price"
+
           - name: old_price_cents
             description: "Shoes old cent price"
+
           - name: new_price_reais
             description: "Shoes new price"
+            tests:
+              - not_null
+
           - name: new_price_cents
             description: "Shoes new cent price"
+
           - name: reviews_rating_number
             description: "Number of stars that the customers gave to the product"
+
           - name: reviews_amount
             description: "Number of reviews made by customers"
+
           - name: datetime
             description: "The date and time when the crawler obtained the shoes information"
+            tests:
+              - not_null
 
       - name: raw-puma_tenis_corrida_masculino
         description: "Table with masculine running shoes from Puma"
         columns:
           - name: id
             description: "UUID"
+            tests:
+              - unique
+              - not_null
+
           - name: name
             description: "Shoes name"
+            tests:
+              - not_null
+
           - name: price
             description: "Shoes price"
+            tests:
+              - not_null
+
           - name: label
             description: "Shoes information (optional)"
+
           - name: ultimos_tamanhos
             description: "Shoes last sizes"
+
           - name: datetime
             description: "The date and time when the crawler obtained the shoes information"
+            tests:
+              - not_null
       
       - name: raw-magalu_tenis_corrida_masculino
         description: "Table with masculine running shoes from Magazine Luiza"
         columns:
           - name: id
             description: "UUID"
+            tests:
+              - unique
+              - not_null
+
           - name: name
             description: "Shoes name"
+            tests:
+              - not_null
+
           - name: old_price
             description: "Shoes old_price"
+
           - name: new_price
             description: "Shoes new_price"
+            tests:
+              - not_null
+
           - name: rating_and_number_of_evaluations
             description: "Shoes ratings and number of evaluations"
+
           - name: discount_pix
             description: "Discount percentange if you pay using Pix"
+
           - name: datetime
             description: "The date and time when the crawler obtained the shoes information"
+            tests:
+              - not_null

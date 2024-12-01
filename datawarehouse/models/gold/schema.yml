@@ -1,51 +1,97 @@
 version: 2
 
-sources:
-  - name: WebScraping
-    schema: data
-    tables:
-      - name: price_over_time_infusion
-        description: "Price of the Infusion Puma shoes over time in Mercado Livre, Magazine Luiza and Puma website"
-        columns:
-          - name: name
-            description: "Shoes name"
-          - name: price
-            description: "Shoes price"
-          - name: site
-            description: "Website where the price of the Infusion Puma shoes was collected"
-          - name: datetime
-            description: "Timestamp when the Infusion Puma shoes was collected"
+models:
+  - name: price_over_time_infusion
+    description: "Price of the Infusion Puma shoes over time in Mercado Livre, Magazine Luiza and Puma website"
+    columns:
+      - name: name
+        description: "Shoes name"
+        tests:
+          - not_null
 
-      - name: top10_best_puma_shoes_price
-        description: "Top 10 best Puma shoes price of all the websites combined"
-        columns:
-          - name: name
-            description: "Shoes name"
-          - name: brand
-            description: "Brand name (in this case only 'puma')"
-          - name: price
-            description: "Shoes price"
-          - name: site
-            description: "Website where the price of the Puma shoes was collected"
+      - name: price
+        description: "Shoes price"
+        tests:
+          - not_null
 
-      - name: metrics_puma_prices
-        description: "Statistics metrics related to Puma shoes along all the websites"
-        columns:
-          - name: site
-            description: "Website where the price of the Puma shoes was collected"
-          - name: min_price
-            description: "Min price of Puma shoes in a specific website"
-          - name: max_price
-            description: "Max price of Puma shoes in a specific website"
-          - name: mean_price
-            description: "Mean price of Puma shoes in a specific website"
-          - name: stddev_price
-            description: "Standard deviation price of Puma shoes in a specific website"
-          - name: percentile_25
-            description: "25th percentile price of Puma shoes in a specific website"
-          - name: median_price
-            description: "Median (50th percentile) price of Puma shoes in a specific website"
-          - name: percentile_75
-            description: "75th percentile price of Puma shoes in a specific website"
-          - name: qtd_shoes
-            description: "Different data quantity collected in a specific website"
+      - name: site
+        description: "Website where the price of the Infusion Puma shoes was collected"
+        tests:
+          - not_null
+
+      - name: datetime
+        description: "Timestamp when the Infusion Puma shoes was collected"
+        tests:
+          - not_null
+
+  - name: top10_best_puma_shoes_price
+    description: "Top 10 best Puma shoes price of all the websites combined"
+    columns:
+      - name: name
+        description: "Shoes name"
+        tests:
+          - not_null
+
+      - name: brand
+        description: "Brand name (in this case only 'puma')"
+        tests:
+          - not_null
+
+      - name: price
+        description: "Shoes price"
+        tests:
+          - not_null
+
+      - name: site
+        description: "Website where the price of the Puma shoes was collected"
+        tests:
+          - not_null
+
+  - name: metrics_puma_prices
+    description: "Statistics metrics related to Puma shoes along all the websites"
+    columns:
+      - name: site
+        description: "Website where the price of the Puma shoes was collected"
+        tests:
+          - not_null
+
+      - name: min_price
+        description: "Min price of Puma shoes in a specific website"
+        tests:
+          - not_null
+          
+      - name: max_price
+        description: "Max price of Puma shoes in a specific website"
+        tests:
+          - not_null
+          
+      - name: mean_price
+        description: "Mean price of Puma shoes in a specific website"
+        tests:
+          - not_null
+          
+      - name: stddev_price
+        description: "Standard deviation price of Puma shoes in a specific website"
+        tests:
+          - not_null
+          
+      - name: percentile_25
+        description: "25th percentile price of Puma shoes in a specific website"
+        tests:
+          - not_null
+          
+      - name: median_price
+        description: "Median (50th percentile) price of Puma shoes in a specific website"
+        tests:
+          - not_null
+          
+      - name: percentile_75
+        description: "75th percentile price of Puma shoes in a specific website"
+        tests:
+          - not_null
+          
+      - name: qtd_shoes
+        description: "Different data quantity collected in a specific website"
+        tests:
+          - not_null
+          

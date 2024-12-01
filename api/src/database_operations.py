@@ -1,13 +1,9 @@
 from typing import List
-import sys
-import os
 
 from fastapi import APIRouter, Depends, Body, Request
-from pydantic import BaseModel
 
 from core.database import engine
 from core.deps import get_session
-# sys.path.append('/datawarehouse')
 from sources.utils import insert_data_to_postgres
 
 

@@ -6,7 +6,7 @@ services:
       - "5433:5432"
     restart: always
     env_file:
-      - ./.env
+      - ../.env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -14,7 +14,7 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     networks:
-      - db-network
+      - dbt-network
 
   dbt:
     build:
@@ -22,17 +22,17 @@ services:
       dockerfile: Dockerfile.dbt
     container_name: dbt
     env_file:
-      - ./datawarehouse/.env
+      - ../datawarehouse/.env
     environment:
       DBT_PROFILES_DIR: /PROJECT/datawarehouse
       DBT_PROJECT_DIR: /PROJECT/datawarehouse
     volumes:
-      - ./datawarehouse:/PROJECT/datawarehouse
-      - ./include:/PROJECT/include
-    ports: # Apenas teste da api
-    - "8000:8000"
+      - ../datawarehouse:/PROJECT/datawarehouse
+      - ../include:/PROJECT/include
+    ports:
+    - "8080:8080"
     networks:
-      - db-network
+      - dbt-network
     depends_on:
       - postgres
 
@@ -41,7 +41,7 @@ services:
     container_name: pgadmin_dbt
     restart: always
     env_file:
-      - ./.env
+      - ../.env
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
@@ -51,7 +51,7 @@ services:
     volumes:
     - pgadmin-cache:/var/lib/pgadmin
     networks:
-      - db-network
+      - dbt-network
     depends_on:
       - postgres
 
@@ -62,5 +62,5 @@ volumes:
     driver: local
 
 networks:
-  db-network:
+  dbt-network:
     driver: bridge

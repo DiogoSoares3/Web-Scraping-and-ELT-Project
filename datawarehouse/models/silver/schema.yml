@@ -1,65 +1,97 @@
 version: 2
 
-sources:
-  - name: WebScraping
-    schema: data
-    tables:
-      - name: stg-mercado_livre_tenis_corrida_masculino
-        description: "Staging table with masculine running shoes from Mercado Livre"
-        columns:
-          - name: id
-            description: "UUID"
-          - name: brand
-            description: "Shoes brand"
-          - name: name
-            description: "Shoes name"
-            tests:
-              - unique
-              - not_null
+models:
+  - name: stg-mercado_livre_tenis_corrida_masculino
+    description: "Staging table with masculine running shoes from Mercado Livre"
+    columns:
+      - name: id
+        description: "UUID"
+        tests:
+          - unique
+          - not_null
+      - name: brand
+        description: "Shoes brand"
+        
+      - name: name
+        description: "Shoes name"
+        tests:
+          - not_null
 
-          - name: old_price
-            description: "Shoes old price"
-          - name: new_price
-            description: "Shoes new price"
-          - name: reviews_rating_number
-            description: "Number of stars that the customers gave to the product"
-          - name: reviews_amount
-            description: "Number of reviews made by customers"
-          - name: datetime
-            description: "The date and time when the crawler obtained the shoes information"
+      - name: old_price
+        description: "Shoes old price"
 
-      - name: stg-puma_tenis_corrida_masculino
-        description: "Staging table with masculine running shoes from Puma"
-        columns:
-          - name: id
-            description: "UUID"
-          - name: name
-            description: "Shoes name"
-          - name: price
-            description: "Shoes price"
-          - name: label
-            description: "Shoes information (optional)"
-          - name: last_sizes
-            description: "Shoes last sizes"
-          - name: datetime
-            description: "The date and time when the crawler obtained the shoes information"
+      - name: new_price
+        description: "Shoes new price"
 
-      - name: stg-magalu_tenis_corrida_masculino
-        description: "Staging table with masculine running shoes from Magazine Luiza"
-        columns:
-          - name: id
-            description: "UUID"
-          - name: name
-            description: "Shoes name"
-          - name: old_price
-            description: "Shoes old_price"
-          - name: new_price
-            description: "Shoes new_price"
-          - name: rating
-            description: "Shoes ratings and number of evaluations"
-          - name: number_of_evaluations
-            description: "Shoes number of evaluations"
-          - name: discount_pix
-            description: "Discount percentange if you pay using Pix"
-          - name: datetime
-            description: "The date and time when the crawler obtained the shoes information"
+      - name: reviews_rating_number
+        description: "Number of stars that the customers gave to the product"
+
+      - name: reviews_amount
+        description: "Number of reviews made by customers"
+
+      - name: datetime
+        description: "The date and time when the crawler obtained the shoes information"
+        tests:
+          - not_null
+
+  - name: stg-puma_tenis_corrida_masculino
+    description: "Staging table with masculine running shoes from Puma"
+    columns:
+      - name: id
+        description: "UUID"
+        tests:
+          - unique
+          - not_null
+
+      - name: name
+        description: "Shoes name"
+        tests:
+          - not_null
+
+      - name: price
+        description: "Shoes price"
+
+      - name: label
+        description: "Shoes information (optional)"
+
+      - name: last_sizes
+        description: "Shoes last sizes"
+
+      - name: datetime
+        description: "The date and time when the crawler obtained the shoes information"
+        tests:
+          - not_null
+
+  - name: stg-magalu_tenis_corrida_masculino
+    description: "Staging table with masculine running shoes from Magazine Luiza"
+    columns:
+      - name: id
+        description: "UUID"
+        tests:
+          - unique
+          - not_null
+
+      - name: name
+        description: "Shoes name"
+        tests:
+          - not_null
+
+      - name: old_price
+        description: "Shoes old_price"
+        
+      - name: new_price
+        description: "Shoes new_price"
+
+      - name: rating
+        description: "Shoes ratings and number of evaluations"
+
+      - name: number_of_evaluations
+        description: "Shoes number of evaluations"
+
+      - name: discount_pix
+        description: "Discount percentange if you pay using Pix"
+
+      - name: datetime
+        description: "The date and time when the crawler obtained the shoes information"
+        tests:
+          - not_null
