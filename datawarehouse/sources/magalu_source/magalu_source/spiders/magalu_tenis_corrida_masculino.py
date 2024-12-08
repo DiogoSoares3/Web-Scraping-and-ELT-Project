@@ -12,17 +12,32 @@ class MagaluTenisCorridaMasculinoSpider(scrapy.Spider):
 
     def parse(self, response):
         products = response.css('div.sc-gQSkpc.jTodsw')
+        
+        if products:
+            for product in products:
 
-        for product in products:
+                yield {
+                    'name': product.css('h2.sc-cvalOF.cQhIqz::text').get(),
+                    'old_price': product.css('p.sc-dcJsrY.lmAmKF.sc-fyVfxW.egCHto::text').get(),
+                    'new_price': product.css('p.sc-dcJsrY.eLxcFM.sc-jdkBTo.etFOes::text').get(),
+                    'rating_and_number_of_evaluations': product.css('span.sc-fUkmAC.geJyjP::text').get(),
+                    'discount_pix': products.css('span.sc-bddgXz.iYagWw::text').getall()[1],
+                    'datetime': datetime.now().timestamp()
+                    }
+        else:
+            products = response.css('div.sc-evdWiO.cEdKXb')
 
-            yield {
-                'name': product.css('h2.sc-cvalOF.cQhIqz::text').get(),
-                'old_price': product.css('p.sc-dcJsrY.lmAmKF.sc-fyVfxW.egCHto::text').get(),
-                'new_price': product.css('p.sc-dcJsrY.eLxcFM.sc-jdkBTo.etFOes::text').get(),
-                'rating_and_number_of_evaluations': product.css('span.sc-fUkmAC.geJyjP::text').get(),
-                'discount_pix': products.css('span.sc-bddgXz.iYagWw::text').getall()[1],
-                'datetime': datetime.now().timestamp()
-                }
+            for product in products:
+
+                yield {
+                    'name': product.css('h2.sc-gQSkpc.iWaBVz::text').get(),
+                    'old_price': product.css('p.sc-dcJsrY.lmAmKF.sc-eHsDsR.jmtuZf::text').get(),
+                    'new_price': product.css('p.sc-dcJsrY.eLxcFM.sc-fmzyuX.dIyuod::text').get(),
+                    'rating_and_number_of_evaluations': product.css('span.sc-cXPBUD.SkEmc::text').get(),
+                    'discount_pix': product.css('span.sc-fyVfxW.bBlpKX::text').getall()[1] if len(product.css('span.sc-fyVfxW.bBlpKX::text').getall()) > 2 else None,
+                    'datetime': datetime.now().timestamp()
+                    }
+
 
         if products:
             next_page_url = f"https://www.magazinevoce.com.br/magazinevendasitemagalu/busca/tenis+corrida+masculino/?page={self.page + 1}"

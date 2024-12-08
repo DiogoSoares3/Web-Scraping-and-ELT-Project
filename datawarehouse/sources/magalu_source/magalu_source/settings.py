@@ -12,7 +12,7 @@ BOT_NAME = "magalu_source"
 SPIDER_MODULES = ["magalu_source.spiders"]
 NEWSPIDER_MODULE = "magalu_source.spiders"
 
-USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
+USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36'
 COOKIES_ENABLED = False
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "magalu_source (+http://www.yourdomain.com)"
@@ -22,7 +22,7 @@ RANDOMIZE_DOWNLOAD_DELAY = True # Variar o delay
 CONCURRENT_REQUESTS = 1  # Garantir que uma requisição seja feita por vez
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
