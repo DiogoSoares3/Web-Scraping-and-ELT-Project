@@ -13,7 +13,7 @@ data = fetch_data_from_api(api_url)
 if data:
     df = pd.DataFrame(data)
         
-    st.subheader("Running Puma Shoes distribution by website")
+    st.subheader("Running Puma Shoes price distribution by website")
     
     fig = px.box(
         df,

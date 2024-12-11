@@ -18,7 +18,7 @@ WITH source AS (
 -- renamed
 
 renamed as (
-    SELECT -- ARRUMAR ESSE REPLACE DO R$
+    SELECT
         "id",
         cast("name" as text),
         cast(replace(REGEXP_REPLACE("old_price", '[^0-9,]', '', 'g'), ',', '.') as float) as old_price,

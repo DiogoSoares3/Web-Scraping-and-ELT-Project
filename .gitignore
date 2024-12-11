@@ -1,5 +1,6 @@
 .venv
 .env
-logs
+logs/
 __pycache__
 target
+Trabalho WebScraping.mp4

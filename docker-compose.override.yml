@@ -73,8 +73,8 @@ services:
 
   api_app:
     build:
-      context: ./docker
-      dockerfile: Dockerfile.api_app
+      context: ./
+      dockerfile: ./docker/Dockerfile.api_app
     container_name: api_app
     restart: always
     env_file:

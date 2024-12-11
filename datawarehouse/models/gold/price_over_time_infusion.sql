@@ -53,6 +53,3 @@ FROM
     all_prices
 ORDER BY 
     name, datetime, site
-
--- SUGESTÃO: Gráfico Eixo X: datetime, Eixo Y: price, Cor/linha: site
--- Vai permitir comparar os preços de um determinado modelo entre os sites ao longo do tempo de forma clara.
