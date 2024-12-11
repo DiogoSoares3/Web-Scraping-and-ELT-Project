@@ -4,6 +4,8 @@
 
 This project implements a ELT (Extract, Load, Transform) data engineer logic. It implements a web scraping and data pipeline solution to analyze men's running shoes data from multiple online platforms, including Puma Oficial Website, Magazine Luiza, and Mercado Livre. It adopts the Medallion Architecture to structure the data pipeline into Bronze (raw), Silver (staging), and Gold (datamart) layers, enabling efficient data processing, transformation, and enrichment.
 
+![alt text](images/image-6.png)
+
 The primary objectives of this project are:
 
 - Data Automation: Automate the process of scraping product data from websites.
@@ -12,7 +14,8 @@ The primary objectives of this project are:
 - User-Friendly Interaction: Integrate with Telegram Bot and Streamlit for enhanced user experience, including notifications and visual dashboards.
 
 The pipeline is orchestrated using Apache Airflow, Astro CLI and Cosmos, with separate DAGs handling data collection, transformation, and enrichment. Key technologies like Scrapy (for scraping), DBT (for transformation), and Python APIs ensure seamless integration and performance.
-Pipeline Overview
+
+### Pipeline Overview
 
 The pipeline consists of the following stages, visualized in the attached DAG flow diagram:
 
@@ -27,7 +30,7 @@ The pipeline consists of the following stages, visualized in the attached DAG fl
 
 3. DBT Transformations:
     - Staging tables (stg-*) clean, standardize and eliminate duplicated records in the raw data.
-    - Gold-layer views like price_over_time_infusion, metrics_puma_prices and top10_best_puma_shoes_price provide enriched insights of Puma running shoes.
+    - Gold-layer views like `price_over_time_infusion`, `metrics_puma_prices` and `top10_best_puma_shoes_price` provide enriched insights of Puma running shoes.
 
 4. Notifications:
     - A Telegram Bot sends alerts based on key metrics of the price_over_time_infusion, such as significant price drops, availability of top-priced and the price over time of the Infusion Puma sneaker.
@@ -99,8 +102,6 @@ Where is the project's tree for a better undertanding of how the content is stru
 │   ├── dbt_project.yml
 │   ├── docs
 │   ├── __init__.py
-│   ├── logs
-│   │   └── dbt.log
 │   ├── models
 │   │   ├── gold
 │   │   │   ├── metrics_puma_prices.sql
@@ -176,11 +177,6 @@ Where is the project's tree for a better undertanding of how the content is stru
 ├── include
 │   ├── constants.py
 │   ├── profiles.py
-│   └── __pycache__
-│       ├── constants.cpython-312.pyc
-│       └── telegram_connection.cpython-312.pyc
-├── logs
-│   └── dbt.log
 ├── packages.txt
 ├── plugins
 ├── README.md
@@ -196,11 +192,11 @@ Where is the project's tree for a better undertanding of how the content is stru
 
 - We can see that we have an `api` directory, where our FastAPI Api will be configured to return data from the golden layer for our aplications, such as the Telegram Alert Bot and the Streamlit app.
 
-- The `app` directory host the Streamlit App for data visualisation
+- The `app` directory host the Streamlit App for data visualization
 
 - The `dags` directory contains the Airflow DAGs that will be executed for running
 
-- The `datawarehouse` directory contains all of the project's business logic. It contains the sub-directory `datawarehouse/sources`, which contains all the Scrapy crawlers code. It also contains the sub-directory `datawarehouse/sources`, which contains all the Medallion Architecture, with the Bronze, Silver and Gold layers containing SQL scripts for the DBT execution.
+- The `datawarehouse` directory contains all of the project's business logic. It contains the sub-directory `datawarehouse/sources`, which contains all the Scrapy crawlers code. It also contains the sub-directory `datawarehouse/models`, which contains all the Medallion Architecture, with the Bronze, Silver and Gold layers containing SQL scripts for the DBT execution.
 
 - A `docker` directory for to help handling the Dockerfiles, requeirements.txt files and bash scripts to run in the project context.
 
@@ -295,10 +291,79 @@ As part of the Airflow pipeline execution, once the DBT scripts complete, a Fast
 
 This end-to-end pipeline from data extraction to enriched data visualization—provides a robust solution for automating the processing and analysis of e-commerce product data, reducing manual effort and enhancing decision-making processes.
 
-## How to Run the Project
+## Setting up the Project
 
+Note: This tutorial only works for Linux Based Operating Systems.
+
+First of all, you need to have de the [Docker Engine](https://docs.docker.com/engine/install/) and [Astro CLI](https://www.astronomer.io/docs/astro/cli/install-cli/) installed.
+
+Second, create a `.env` on project's root directory based on the `.env.example` file. Also, in the `/datawarehouse`directory, create a `.env` file based on its `.env.example` file.
 
 ### Enviroment configs
 
+To set the root's `.env` file, put a Postgres User on the `POSTGRES_USER` variable, a Postgres Password on the `POSTGRES_PASSWORD` variable, a Postgres Database on the `POSTGRES_DB` variable, a PgAdmin Email on the `PGADMIN_DEFAULT_EMAIL` variable and a PgAdmin Password on the `PGADMIN_DEFAULT_PASSWORD` variable. This enviroment variables can be a value set by your own choice. 
+
+Note: after you start up the project, access the `localhost:5050` URL on your browser and put this enviroment variables when setting up a new Server on the PgAdmin interface.
+
+To set the `DB_URL` variable on your `.env` file, put the your Postgres User, Postgres Password and the Postgres Database on the URL. Your `DB_URL` should be like this example: `postgresql://POSTGRES_USER:POSTGRES_PASSWORD@postgres:5432/POSTGRES_DB?options=-csearch_path%3Ddata,public`. The `?options=-csearch_path%3Ddata,public` is a configuration for database schema locations, the `public` schema contains the Airflow metadata and the `data` schema contains the real aplication data.
+
+To set the Telegram Bot token, open your Telegram App and search for the name "BotFather". Click start, and then type "/newbot" in the chat. This will create a new bot for yout. Follow the BotFather instructions and then he should give you a Bot Token. Paste this token on the variable `TELEGRAM_TOKEN` in the `.env` file. 
+
+![alt text](images/image-7.png)
+
+Search for the name you put on your bot in Telegram's search bar, and then send a message to him. After this, put this URL on your browser `https://api.telegram.org/bot<TELEGRAM_TOKEN>/getUpdates`, replace the `<TELEGRAM_TOKEN>` by putting the token of your bot. If the URL did not return a "chat" atribute, try to send another message to your bot. When the URL return a "chat" atribute, collect its "id" and paste it on the `TELEGRAM_CHAT_ID` enviroment variable in the `.env` file. After this, all should be working properly.
+
+Finally, on the `/datawarehouse/.env` file, just copy the Postgres User, Postgres Password and the Postgres database that you put on the project's root `.env` file. The `/datawarehouse/.env` file is a requirement for the DBT enviroment configuration.
+
+
+### Running the project
+
+You can run the project in two ways: With Airflow and without Airflow (just with DBT comands)
+
+#### Running with Airflow
+
+To run the project with Airflow and DBT, in the root directory, execute the following command:
+
+```bash
+sh start.sh
+```
+
+This will build and run several containers related to the FastAPI API, the Streamlit App, the PostgreSQL Database, the PgAdmin, Airflow's Scheduler, Trigger and Webserver.
+
+- To access Airflow UI, put this URL in your browser: `localhost:8080`
+- To access the PgAdmin UI, put this URL in your browser: `localhost:5050`
+- To access the Streamlit UI, put this URL in your browser: `localhost:8210`
+
+To stop the container's execution, on the project's root directory, run this command:
+
+```bash
+sh down.sh
+```
+
+#### Running without Airflow
+
+To run the project with DBT without Airflow, in the root directory, execute the following command:
+
+```bash
+sh start_no_airflow.sh
+```
+
+This command will put you in the container's interative terminal. To check all confugurations made are correct, run this command:
+
+```bash
+dbt debug
+```
+
+You can explore the container and run some DBT commands. For this purpose, visit the [oficial DBT website](https://docs.getdbt.com/docs/get-started-dbt) for more information.
+
+To stop the containers execution, on the project's root directory, run this command:
+
+```bash
+sh down_no_airflow.sh
+```
 
 ## Conclusion and Next Steps
+
+With the development of this project, it's remarkable that the use of Apache Airflow as an orchestration tool proved to be highly effective in managing the complexities of a Medallion Architecture pipeline. From the initial stages of raw data ingestion in the Bronze Layer through automated crawlers, to the data cleaning and validation processes in the Silver Layer, and finally to the generation of business-ready insights in the Gold Layer using DBT, Airflow ensures a seamless flow of operations. The integration of a Telegram bot for real-time alerts along with a Streamlit App for data visualization further enhances the system by providing stakeholders with immediate insights and with statistical validation, enabling timely and confident decision-making. This automated, modular, and scalable pipelines demonstrates the potential of orchestrated data workflows to optimize business processes while reducing manual effort.
+
+For the next steps, expanding the pipeline could include integrating new data sources into the crawlers, which would enrich the dataset and allow for broader analyses. Additionally, increasing the number of SQL scripts in the Gold Layer could help cover more business areas, enabling the pipeline to support a wider range of strategic decisions. By continuously evolving the system with additional data sources and analytical capabilities, the pipeline can deliver even more value, supporting diverse business objectives and adapting to new challenges in data-driven environments.

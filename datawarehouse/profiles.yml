@@ -2,20 +2,11 @@ datawarehouse:
   target: dev
   outputs:
     dev:
-      # type: "{{ env_var('DB_TYPE') }}"
-      # host: postgres  # Postgres container name
-      # user: "{{ env_var('POSTGRES_USER') }}"
-      # password: "{{ env_var('POSTGRES_PASSWORD') }}"
-      # port: "{{ env_var('POSTGRES_PORT') | int }}"
-      # dbname: "{{ env_var('POSTGRES_DB') }}"
-      # schema: "{{ env_var('DB_SCHEMA') }}"
-      # threads: "{{ env_var('DB_THREADS') | int }}"
-
-      type: postgres
+      type: "{{ env_var('DB_TYPE') }}"
       host: postgres  # Postgres container name
-      user: postgres
-      password: postgres
-      port: 5432
-      dbname: "WebScraping"
-      schema: "data"
-      threads: 4
+      user: "{{ env_var('POSTGRES_USER') }}"
+      password: "{{ env_var('POSTGRES_PASSWORD') }}"
+      port: "{{ env_var('POSTGRES_PORT') | int }}"
+      dbname: "{{ env_var('POSTGRES_DB') }}"
+      schema: "{{ env_var('DB_SCHEMA') }}"
+      threads: "{{ env_var('DB_THREADS') | int }}"
