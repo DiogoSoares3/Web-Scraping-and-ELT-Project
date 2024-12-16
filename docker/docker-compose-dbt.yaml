@@ -16,11 +16,11 @@ services:
     networks:
       - dbt-network
 
-  dbt:
+  dbt-container:
     build:
       context: ./
       dockerfile: Dockerfile.dbt
-    container_name: dbt
+    container_name: dbt-container
     env_file:
       - ../datawarehouse/.env
     environment:
@@ -35,6 +35,7 @@ services:
       - dbt-network
     depends_on:
       - postgres
+      - api
 
   pgadmin:
     image: elestio/pgadmin:REL-8_12
@@ -54,6 +55,27 @@ services:
       - dbt-network
     depends_on:
       - postgres
+
+  api:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.api_test
+    container_name: api
+    restart: always
+    env_file:
+      - ../.env
+    environment:
+      - PYTHONPATH=/api:/datawarehouse:/app
+    volumes:
+      - ../api:/api
+      - ../datawarehouse/sources:/datawarehouse/sources
+      - ../app:/app
+    ports:
+    - "8200:8200"
+    - "8210:8210"
+    networks:
+      - dbt-network
+    command: "sh ./execute.sh"
 
 volumes:
   db-data:

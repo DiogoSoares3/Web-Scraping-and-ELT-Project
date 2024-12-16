@@ -6,10 +6,10 @@ from core.database import engine
 
 inspector = inspect(engine)
 
-if 'top10_best_puma_shoes_price' in inspector.get_view_names(schema='data'):
+if 'top10_best_puma_shoes_price' in inspector.get_view_names(schema='dev'):
     class Top10BestPumaShoesPrice(settings.DBBaseModel):
         __tablename__ = 'top10_best_puma_shoes_price'
-        __table_args__ = (PrimaryKeyConstraint('name', 'site'), {'schema': 'data'})
+        __table_args__ = (PrimaryKeyConstraint('name', 'site'), {'schema': 'dev'})
 
         name: str = Column(String, nullable=False)
         brand: str = Column(String)

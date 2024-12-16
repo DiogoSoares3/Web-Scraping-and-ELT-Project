@@ -3,7 +3,7 @@ version: 2
 
 sources:
   - name: WebScraping
-    schema: data
+    schema: dev
     tables:
       - name: raw-mercado_livre_tenis_corrida_masculino
         description: "Table with masculine running shoes from Mercado Livre"

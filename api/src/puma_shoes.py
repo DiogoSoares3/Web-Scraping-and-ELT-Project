@@ -10,7 +10,7 @@ from schemas.puma_shoes_schema import MetricsPumaShoesSchema, Top10BestPumaShoes
 router = APIRouter()
 
 
-@router.get("/metrics/", description='', response_model=List[MetricsPumaShoesSchema])
+@router.get("/metrics/", description='', response_model=List[MetricsPumaShoesSchema], status_code=200)
 def metrics(session = Depends(get_session)):
     from models.metrics_model import MetricsPumaPrices
     
@@ -18,7 +18,7 @@ def metrics(session = Depends(get_session)):
     return result
 
 
-@router.get("/top10-best-puma/", description='', response_model=List[Top10BestPumaShoesSchema])
+@router.get("/top10-best-puma/", description='', response_model=List[Top10BestPumaShoesSchema], status_code=200)
 def get_top10(session = Depends(get_session)):
     from models.top10_puma_model import Top10BestPumaShoesPrice
     

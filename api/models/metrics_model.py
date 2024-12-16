@@ -6,10 +6,10 @@ from core.database import engine
 
 inspector = inspect(engine)
 
-if 'metrics_puma_prices' in inspector.get_view_names(schema='data'):
+if 'metrics_puma_prices' in inspector.get_view_names(schema='dev'):
     class MetricsPumaPrices(settings.DBBaseModel):
         __tablename__ = 'metrics_puma_prices'
-        __table_args__ = (PrimaryKeyConstraint('site'), {'schema': 'data'})
+        __table_args__ = (PrimaryKeyConstraint('site'), {'schema': 'dev'})
 
         site: str = Column(String, nullable=False)
         min_price: float = Column(Float, nullable=False)

@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd ./docker && docker compose -f docker-compose-dbt.yaml up --build -d
-docker exec -it dbt bash
+docker compose -f docker/docker-compose-dbt.yaml up --build -d
+docker exec -it dbt-container bash

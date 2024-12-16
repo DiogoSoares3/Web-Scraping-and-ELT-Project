@@ -30,7 +30,7 @@ def _verify_json_quality(file_path):
             f.write(content)
 
 
-def _insert_data(file_path, table_name, engine, session, schema='data'):
+def _insert_data(file_path, table_name, engine, session, schema='dev'):
     _verify_json_quality(file_path)
     _, file_extension = os.path.splitext(file_path)
 
@@ -99,7 +99,7 @@ def remove_data_from_dir(source_dir=None):
                     os.remove(file_path)
 
 
-def insert_data_to_postgres(engine, session, schema='data', source_dir=None):
+def insert_data_to_postgres(engine, session, schema='dev', source_dir=None):
     if source_dir:
         data_dir = os.path.join(source_dir, 'data')
 
@@ -139,6 +139,30 @@ def insert_data_to_postgres(engine, session, schema='data', source_dir=None):
                             print(f"Failed to process {file_name}: {e}")
     return 'success'
 
+
+def insert_test_data(engine, session, schema='dev', source_dir=None):
+    for source_dir in os.listdir(SOURCES_DIR):
+        if source_dir.endswith('_source'):
+            data_dir = os.path.join(SOURCES_DIR, source_dir, 'backup')
+
+            if not os.path.exists(data_dir):
+                continue
+
+            # Process all JSON and CSV files on the 'backup' directory
+            for file_name in os.listdir(data_dir):
+                file_path = os.path.join(data_dir, file_name)
+                if file_name.endswith('.json') or file_name.endswith('.csv'):
+                    table_name = 'raw-' + file_name.rsplit('.', 1)[0]  # Table's name based on the file name
+
+                    try:
+                        _insert_data(file_path, table_name, engine, session, schema)
+                        print(f"Data from {file_name} were inserted in the table {table_name}.")
+
+                    except ProgrammingError as e:
+                        print(f"Erro: {e}")
+                    except Exception as e:
+                        print(f"Failed to process {file_name}: {e}")
+    return 'success'
 
 # if __name__ == '__main__':
 #     insert_data_to_postgres(schema='data')

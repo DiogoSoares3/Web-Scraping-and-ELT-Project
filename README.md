@@ -48,6 +48,7 @@ The Project is executed using the Astronomer Apache Airflow using the Astro CLI 
 - Scrapy: Handles web scraping for extracting product data from e-commerce websites.
 - PostgreSQL: Serves as the data warehouse, storing raw (Bronze), processed (Silver), and enriched (Gold) data layers.
 - DBT (Data Build Tool): Performs SQL-based data transformations to clean, structure, and enrich the data.
+    - DBT lets you to organize a Data Engineer project like a Software Engineer project, because it offers tests, documentation and CI/CD modules. All of this tecniques were aplied in this project.
 - Telegram Bot: Provides user notifications about insights and alerts, such as price updates or best deals.
 - Docker: Ensures an isolated and consistent environment for running all pipeline components in containers.
 - FastAPI: A Python Framework to build robust APIs.

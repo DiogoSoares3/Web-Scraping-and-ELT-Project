@@ -1,0 +1,68 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  dbt-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Compose stack
+      run: docker compose -f docker/docker-compose-dbt.yaml up --build -d
+
+    - name: Wait for PostgreSQL
+      run: |
+        echo "Waiting for PostgreSQL to be ready..."
+
+        for i in $(seq 1 30);
+        do
+          docker exec db pg_isready -h localhost -p 5432 > /dev/null 2>&1
+
+          if [ $? -eq 0 ]; then
+            echo "PostgreSQL is ready!"
+            exit 0
+          fi
+
+          echo "Attempt $i: PostgreSQL is not ready yet. Retrying in 5 seconds..."
+          sleep 3
+        done
+
+        echo "Error: PostgreSQL did not become ready after 30 attempts."
+        exit 1
+
+    - name: Test API endpoint (inserting test data for DBT use)
+      run: |
+        echo Trying to execute test endpoint.
+
+        for i in $(seq 1 30); do
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8200/api/insert-data-test/)
+          if [ "$response" -eq 200 ]; then
+            echo "API is ready!"
+            exit 0
+          else
+            echo "Attempt $i, Waiting for API to be ready..."
+            sleep 3
+          fi
+        done
+
+        echo "API did not return status code 200 after some attempts."
+        exit 1
+
+    - name: Run dbt models
+      run: docker exec dbt-container dbt run
+
+    - name: Run dbt tests
+      run: docker exec dbt-container dbt test
+
+    - name: Tear down Docker Compose
+      if: always()
+      run: docker-compose -f docker-compose.yaml down

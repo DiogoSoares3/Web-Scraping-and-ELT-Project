@@ -27,7 +27,7 @@ async def send_telegram_message(result) -> None:
         await bot.send_message(chat_id=settings.CHAT_ID, text=text)
 
 
-@router.get("/telegram-bot", description='')
+@router.get("/telegram-bot", description='', status_code=200)
 async def telegram_bot(session = Depends(get_session)):
     from models.infusion_model import PriceOverTimeInfusion
  
