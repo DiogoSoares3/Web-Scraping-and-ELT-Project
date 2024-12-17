@@ -39,25 +39,25 @@ jobs:
     - name: Set up Compose stack
       run: docker compose -f docker/docker-compose-dbt.yaml up --build -d
 
-    - name: Wait for PostgreSQL
-      run: |
-        echo "Waiting for PostgreSQL to be ready..."
+    # - name: Wait for PostgreSQL
+    #   run: |
+    #     echo "Waiting for PostgreSQL to be ready..."
 
-        for i in $(seq 1 30);
-        do
-          docker exec db pg_isready -h localhost -p 5432 > /dev/null 2>&1
+    #     for i in $(seq 1 30);
+    #     do
+    #       docker exec db pg_isready -h localhost -p 5432 > /dev/null 2>&1
 
-          if [ $? -eq 0 ]; then
-            echo "PostgreSQL is ready!"
-            exit 0
-          fi
+    #       if [ $? -eq 0 ]; then
+    #         echo "PostgreSQL is ready!"
+    #         exit 0
+    #       fi
 
-          echo "Attempt $i: PostgreSQL is not ready yet. Retrying in 3 seconds..."
-          sleep 3
-        done
+    #       echo "Attempt $i: PostgreSQL is not ready yet. Retrying in 3 seconds..."
+    #       sleep 3
+    #     done
 
-        echo "Error: PostgreSQL did not become ready after 30 attempts."
-        exit 1
+    #     echo "Error: PostgreSQL did not become ready after 30 attempts."
+    #     exit 1
 
     - name: Test API endpoint (inserting test data for DBT use)
       run: |
@@ -85,4 +85,4 @@ jobs:
 
     - name: Tear down Docker Compose
       if: always()
-      run: docker compose -f docker/docker-compose.yaml down
+      run: docker compose -f docker/docker-compose-dbt.yaml down
