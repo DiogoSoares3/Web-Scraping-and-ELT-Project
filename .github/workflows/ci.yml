@@ -36,49 +36,50 @@ jobs:
         echo "TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}" >> .env
         echo "DB_URL=${{ secrets.DB_URL }}" >> .env
 
-
-
-
     - name: Set up Compose stack
       run: docker compose -f docker/docker-compose-dbt.yaml up --build -d
 
     - name: Wait for PostgreSQL
       run: |
         echo "Waiting for PostgreSQL to be ready..."
-
-        for i in $(seq 1 30);
+        
+        bash -c "
+        for i in \$(seq 1 30);
         do
           docker exec db pg_isready -h localhost -p 5432 > /dev/null 2>&1
 
-          if [ $? -eq 0 ]; then
-            echo "PostgreSQL is ready!"
+          if [ \$? -eq 0 ]; then
+            echo 'PostgreSQL is ready!'
             exit 0
           fi
 
-          echo "Attempt $i: PostgreSQL is not ready yet. Retrying in 5 seconds..."
+          echo 'Attempt \$i: PostgreSQL is not ready yet. Retrying in 5 seconds...'
           sleep 3
         done
 
-        echo "Error: PostgreSQL did not become ready after 30 attempts."
+        echo 'Error: PostgreSQL did not become ready after 30 attempts.'
         exit 1
+        "
 
     - name: Test API endpoint (inserting test data for DBT use)
       run: |
-        echo Trying to execute test endpoint.
+        echo "Trying to execute test endpoint..."
 
+        bash -c "
         for i in $(seq 1 30); do
-          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8200/api/insert-data-test/)
-          if [ "$response" -eq 200 ]; then
-            echo "API is ready!"
+          response=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8200/api/insert-data-test/)
+          if [ '$response' -eq 200 ]; then
+            echo 'API is ready!'
             exit 0
           else
-            echo "Attempt $i, Waiting for API to be ready..."
+            echo 'Attempt $i, Waiting for API to be ready...'
             sleep 3
           fi
         done
 
-        echo "API did not return status code 200 after some attempts."
+        echo 'API did not return status code 200 after some attempts.'
         exit 1
+        "
 
     - name: Run dbt models
       run: docker exec dbt-container dbt run
