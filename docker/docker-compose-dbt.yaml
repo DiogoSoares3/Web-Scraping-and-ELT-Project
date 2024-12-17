@@ -1,5 +1,5 @@
 services:
-  postgres:
+  db:
     image: postgres:16
     container_name: db
     ports:
@@ -34,7 +34,7 @@ services:
     networks:
       - dbt-network
     depends_on:
-      - postgres
+      - db
       - api
 
   pgadmin:
@@ -54,7 +54,7 @@ services:
     networks:
       - dbt-network
     depends_on:
-      - postgres
+      - db
 
   api:
     build:

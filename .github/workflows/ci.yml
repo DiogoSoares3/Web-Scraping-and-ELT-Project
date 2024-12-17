@@ -42,30 +42,27 @@ jobs:
     - name: Wait for PostgreSQL
       run: |
         echo "Waiting for PostgreSQL to be ready..."
-        
-        bash -c "
-        for i in \$(seq 1 30);
+
+        for i in $(seq 1 30);
         do
           docker exec db pg_isready -h localhost -p 5432 > /dev/null 2>&1
 
-          if [ \$? -eq 0 ]; then
-            echo 'PostgreSQL is ready!'
+          if [ $? -eq 0 ]; then
+            echo "PostgreSQL is ready!"
             exit 0
           fi
 
-          echo 'Attempt \$i: PostgreSQL is not ready yet. Retrying in 5 seconds...'
+          echo "Attempt $i: PostgreSQL is not ready yet. Retrying in 3 seconds..."
           sleep 3
         done
 
-        echo 'Error: PostgreSQL did not become ready after 30 attempts.'
+        echo "Error: PostgreSQL did not become ready after 30 attempts."
         exit 1
-        "
 
     - name: Test API endpoint (inserting test data for DBT use)
       run: |
         echo "Trying to execute test endpoint..."
 
-        bash -c "
         for i in $(seq 1 30); do
           response=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8200/api/insert-data-test/)
           if [ '$response' -eq 200 ]; then
@@ -79,7 +76,6 @@ jobs:
 
         echo 'API did not return status code 200 after some attempts.'
         exit 1
-        "
 
     - name: Run dbt models
       run: docker exec dbt-container dbt run
@@ -89,4 +85,4 @@ jobs:
 
     - name: Tear down Docker Compose
       if: always()
-      run: docker-compose -f docker-compose.yaml down
+      run: docker compose -f docker/docker-compose.yaml down
