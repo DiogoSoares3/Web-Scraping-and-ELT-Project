@@ -61,9 +61,9 @@ jobs:
 
     - name: Test API endpoint (inserting test data for DBT use)
       run: |
-        response=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8200/api/insert-data-test/)
+        response=$(curl -s -o /dev/null -w '%{http_code}' http://api:8200/api/insert-data-test/)
         echo "HTTP Response: $response"
-        
+
     #   run: |
     #     echo "Trying to execute test endpoint..."
 
